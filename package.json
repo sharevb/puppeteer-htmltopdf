@@ -1,0 +1,26 @@
+{
+  "name": "puppeteer-htmltopdf",
+  "version": "1.0.0",
+  "description": "Node.js service to convert HTML/URL to PDF using Puppeteer",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "html",
+    "url",
+    "pdf",
+    "puppeteer"
+  ],
+  "author": "ShareVB",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "express": "^5.2.1",
+    "puppeteer": "^24.40.0",
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "@duckduckgo/autoconsent":"^14.67.0",
+    "cross-fetch": "^4.1.0",
+    "@ghostery/adblocker-puppeteer" :"^2.14.1"
+  }}
