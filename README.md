@@ -61,7 +61,6 @@ Run it with access to the host Docker daemon:
 ```
 docker run \
   -p 3000:3000 \
-  -v /var/run/docker.sock:/var/run/docker.sock \
   sharevb/puppeteer-htmltopdf:latest
 ```
 
