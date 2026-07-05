@@ -78,6 +78,7 @@ docker run \
 | `PORT`  | `3000` | Port to listen on |
 | `CORS`  | `*` | CORS Allowed Origins |
 | `BASIC_AUTH`  | unset | Optional HTTP Basic Auth credentials in the form `username:password` |
+| `UPLOAD_LIMIT_MB` | 50 | Max upload size |
 
 
 ## 🔌 API Endpoints

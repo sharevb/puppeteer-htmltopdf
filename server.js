@@ -19,6 +19,7 @@ function parseList(value, fallback) {
 const CORS = process.env.CORS || "*"; 
 const HOST = process.env.HOST || "0.0.0.0"; 
 const PORT = parseInt(process.env.PORT || "3000", 10); 
+const UPLOAD_LIMIT_MB = parseInt(process.env.UPLOAD_LIMIT_MB || "50", 10); 
 const BASIC_AUTH = process.env.BASIC_AUTH?.trim();
 
 function parseBasicAuthCredentials(value) {
@@ -62,7 +63,7 @@ function basicAuthMiddleware(req, res, next) {
 if (credentials) {
   app.use(basicAuthMiddleware);
 }
-app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.json({ limit: `${UPLOAD_LIMIT_MB}mb` }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // --- CORS configuration ---
