@@ -19,7 +19,49 @@ function parseList(value, fallback) {
 const CORS = process.env.CORS || "*"; 
 const HOST = process.env.HOST || "0.0.0.0"; 
 const PORT = parseInt(process.env.PORT || "3000", 10); 
+const BASIC_AUTH = process.env.BASIC_AUTH?.trim();
 
+function parseBasicAuthCredentials(value) {
+  if (!value) return null;
+
+  const separatorIndex = value.indexOf(":");
+  if (separatorIndex <= 0) {
+    return null;
+  }
+
+  return {
+    username: value.slice(0, separatorIndex),
+    password: value.slice(separatorIndex + 1),
+  };
+}
+
+const credentials = parseBasicAuthCredentials(BASIC_AUTH);
+function basicAuthMiddleware(req, res, next) {
+  if (!credentials) {
+    return next();
+  }
+
+  const header = req.get("authorization");
+  if (!header || !header.startsWith("Basic ")) {
+    res.set("WWW-Authenticate", 'Basic realm="Restricted"');
+    return res.status(401).send("Unauthorized");
+  }
+
+  const encoded = header.slice(6).trim();
+  const decoded = Buffer.from(encoded, "base64").toString("utf8");
+  const expected = `${credentials.username}:${credentials.password}`;
+
+  if (decoded !== expected) {
+    res.set("WWW-Authenticate", 'Basic realm="Restricted"');
+    return res.status(401).send("Unauthorized");
+  }
+
+  return next();
+}
+
+if (credentials) {
+  app.use(basicAuthMiddleware);
+}
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 

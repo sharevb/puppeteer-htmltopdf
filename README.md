@@ -40,10 +40,16 @@ Install dependencies:
 npm install
 ```
 
-Start the server:
+Start the server (without authentication):
 
 ```
 HOST=127.0.0.1 PORT=3000 node server.js
+```
+
+With basic authentication:
+
+```
+HOST=127.0.0.1 PORT=3000 BASIC_AUTH='user:password' node server.js
 ```
 
 ---
@@ -71,6 +77,7 @@ docker run \
 | `HOST`  | `0.0.0.0` | Interface to bind the HTTP server |
 | `PORT`  | `3000` | Port to listen on |
 | `CORS`  | `*` | CORS Allowed Origins |
+| `BASIC_AUTH`  | unset | Optional HTTP Basic Auth credentials in the form `username:password` |
 
 
 ## 🔌 API Endpoints
