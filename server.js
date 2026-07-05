@@ -69,7 +69,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // --- CORS configuration ---
 app.use(cors({
   origin: parseList(CORS, "*"),
-  methods: ["GET"],         // your service only exposes GET /download
+  methods: ["*"],
   allowedHeaders: ["*"],    // allow all headers
   exposedHeaders: ["Content-Disposition"], // needed so browser can read filename
 }));
