@@ -19,6 +19,7 @@ function parseList(value, fallback) {
 const CORS = process.env.CORS || "*"; 
 const HOST = process.env.HOST || "0.0.0.0"; 
 const PORT = parseInt(process.env.PORT || "3000", 10); 
+const BASE_URL = process.env.BASE_URL || "/";
 const UPLOAD_LIMIT_MB = parseInt(process.env.UPLOAD_LIMIT_MB || "50", 10); 
 const BASIC_AUTH = process.env.BASIC_AUTH?.trim();
 
@@ -91,7 +92,7 @@ async function getBrowser() {
 // -----------------------------
 // Healthcheck
 // -----------------------------
-app.get("/health", (req, res) => {
+app.get(BASE_URL + "health", (req, res) => {
   res.json({ status: "ok" });
 });
 
@@ -111,7 +112,7 @@ async function applyOnePageLayout(page, pdfOptions) {
 // -----------------------------
 // URL → PDF
 // -----------------------------
-app.post("/pdf/url", async (req, res) => {
+app.post(BASE_URL + "pdf/url", async (req, res) => {
   const { url, options } = req.body;
 
   if (!url) {
@@ -174,7 +175,7 @@ app.post("/pdf/url", async (req, res) => {
 // -----------------------------
 // HTML → PDF
 // -----------------------------
-app.post("/pdf/html", async (req, res) => {
+app.post(BASE_URL + "pdf/html", async (req, res) => {
   const { html, options } = req.body;
 
   if (!html) {
@@ -212,5 +213,5 @@ app.post("/pdf/html", async (req, res) => {
 });
 
 app.listen(PORT, HOST, () => {
-  console.log(`Server running on http://${HOST}:${PORT}`);
+  console.log(`Server running on http://${HOST}:${PORT}${BASE_URL}`);
 });

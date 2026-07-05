@@ -79,7 +79,7 @@ docker run \
 | `CORS`  | `*` | CORS Allowed Origins |
 | `BASIC_AUTH`  | unset | Optional HTTP Basic Auth credentials in the form `username:password` |
 | `UPLOAD_LIMIT_MB` | 50 | Max upload size |
-
+| `BASE_URL` | / | Set base url of endpoints |
 
 ## 🔌 API Endpoints
 
