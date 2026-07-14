@@ -61,9 +61,6 @@ function basicAuthMiddleware(req, res, next) {
   return next();
 }
 
-if (credentials) {
-  app.use(basicAuthMiddleware);
-}
 app.use(bodyParser.json({ limit: `${UPLOAD_LIMIT_MB}mb` }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -75,6 +72,16 @@ app.use(cors({
   exposedHeaders: ["Content-Disposition"], // needed so browser can read filename
 }));
 
+// -----------------------------
+// Healthcheck
+// -----------------------------
+app.get(BASE_URL + "health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
+if (credentials) {
+  app.use(basicAuthMiddleware);
+}
 
 const blocker = await PuppeteerBlocker.fromPrebuiltAdsAndTracking(fetch);
 
@@ -88,13 +95,6 @@ async function getBrowser() {
   }
   return browser;
 }
-
-// -----------------------------
-// Healthcheck
-// -----------------------------
-app.get(BASE_URL + "health", (req, res) => {
-  res.json({ status: "ok" });
-});
 
 async function applyOnePageLayout(page, pdfOptions) {
     const [ pageWidth, pageHeight ] = await page.evaluate(() => 
