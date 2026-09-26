@@ -83,7 +83,12 @@ if (credentials) {
   app.use(basicAuthMiddleware);
 }
 
-const blocker = await PuppeteerBlocker.fromPrebuiltAdsAndTracking(fetch);
+let blocker;
+try {
+  blocker = await PuppeteerBlocker.fromPrebuiltAdsAndTracking(fetch);
+} catch (err) {
+  console.error("Failed to initialize PuppeteerBlocker, adblocker will be disabled:", err);
+}
 
 let browser;
 async function getBrowser() {
@@ -146,7 +151,9 @@ app.post(BASE_URL + "pdf/url", async (req, res) => {
         timeout: 30000
       };
     if (pdfOptions.autoHideCookies) {
-		  await blocker.enableBlockingInPage(page);
+      if (blocker) {
+        await blocker.enableBlockingInPage(page);
+      }
       await optOutConsent(page, () => page.goto(url, gotoUrlOptions));
     } else {
       await page.goto(url, gotoUrlOptions);
